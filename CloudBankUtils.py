@@ -53,7 +53,7 @@ class CloudBankUtils(ICloudBankUtils):
 	def showCoins(self):
 		"""<summary>Calls the CloudService's show_coins service for the server that this object holds the keys for.</summary>"""
 		#the private key is sent as form url encoded content
-		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("pk", self._keys.privatekey))))
+		#var formContent = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("pk", keys.privatekey), new KeyValuePair<string, string>("account", keys.account) });
 		json = "error"
 		try:
 			showCoins = 
@@ -91,7 +91,7 @@ class CloudBankUtils(ICloudBankUtils):
 	def sendStackToCloudBank(self):
 		"""<summary>Sends the CloudCoin in rawStackForDeposit to the CloudService server that this object holds the keys for</summary>"""
 		CloudBankFeedback = ""
-		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("stack", self._rawStackForDeposit))))
+		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("stack", self._rawStackForDeposit), KeyValuePair[str, str]("account", self._keys.account))))
 		try:
 			result_stack = 
 			CloudBankFeedback = 
@@ -116,7 +116,7 @@ class CloudBankUtils(ICloudBankUtils):
 		<param name="toPublicURL">The url of the CloudService server the CloudCoins are being sent to. Do not include "https://"</param>
 		"""
 		CloudBankFeedback = ""
-		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("stack", self._rawStackForDeposit))))
+		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("stack", self._rawStackForDeposit), KeyValuePair[str, str]("account", self._keys.account))))
 		try:
 			result_stack = 
 			CloudBankFeedback = 
@@ -154,7 +154,8 @@ class CloudBankUtils(ICloudBankUtils):
 		<param name="amountToWithdraw">The amount of CloudCoins to withdraw</param>
 		"""
 		self._totalCoinsWithdrawn = amountToWithdraw
-		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("amount", amountToWithdraw.ToString()), KeyValuePair[str, str]("pk", self._keys.privatekey))))
+		#var formContent = new FormUrlEncodedContent(new[] { new KeyValuePair<string,string>("amount",amountToWithdraw.ToString()),
+		#   new KeyValuePair<string, string>("pk", keys.privatekey), new KeyValuePair<string, string>("account", keys.account) });
 		try:
 			result_stack = 
 			self._rawStackFromWithdrawal = 
@@ -195,7 +196,8 @@ class CloudBankUtils(ICloudBankUtils):
 		"""<summary>Retrieves CloudCoins from CloudService server that this object holds the keys for.
 		The amount withdrawn is the same as the amount last deposited with sendStackToCloudBank.</summary>
 		"""
-		formContent = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("rn", self._receiptNumber), KeyValuePair[str, str]("pk", self._keys.privatekey))))
+		#var formContent = new FormUrlEncodedContent(new[] { new KeyValuePair<string,string>("rn",receiptNumber),
+		# new KeyValuePair<string, string>("pk", keys.privatekey), new KeyValuePair<string, string>("account", keys.account) });
 		try:
 			result_receipt = 
 			rawReceipt = 
@@ -219,7 +221,8 @@ class CloudBankUtils(ICloudBankUtils):
 			return 
 		finally:
 		try:
-			formContent2 = FormUrlEncodedContent(Array[]((KeyValuePair[str, str]("amount", self._totalCoinsWithdrawn.ToString()), KeyValuePair[str, str]("pk", self._keys.privatekey))))
+			#var formContent2 = new FormUrlEncodedContent(new[] { new KeyValuePair<string,string>("amount",totalCoinsWithdrawn.ToString()),
+			#new KeyValuePair<string, string>("pk", keys.privatekey), new KeyValuePair<string, string>("account", keys.account) });
 			result_stack = 
 			self._rawStackFromWithdrawal = 
 			failResponse = JsonConvert.DeserializeObject(self._rawStackFromWithdrawal)
@@ -267,8 +270,8 @@ class CloudBankUtils(ICloudBankUtils):
 		<param name="path">The full file path where the new file will be written</param> 
 		"""
 		File.WriteAllText(path + self.getStackName(), self._rawStackFromWithdrawal)
+
 	#WriteFile(path + stackName, rawStackFromWithdrawal);
-	
 	def getStackName(self):
 		"""<summary>Generates a filename for the CloudCoin stack file to be written by saveStackToFile</summary>"""
 		if self._receiptNumber == None:
