@@ -69,11 +69,11 @@ class IKeys(object):
 
 	privatekey = property(fget=get_privatekey, fset=set_privatekey)
 
-	def get_email(self):
+	def get_account(self):
 
-	def set_email(self, value):
+	def set_account(self, value):
 
-	email = property(fget=get_email, fset=set_email)
+	account = property(fget=get_account, fset=set_account)
 
 class IBankResponse(object):
 	def get_bank_server(self):
