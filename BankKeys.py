@@ -1,20 +1,12 @@
 from Newtonsoft.Json import *
 # 
-# 
 # example json file:
 # 
-# 
-# 
 # {
-# 
 # "publickey":"preston.CloudCoin.Global",
-# 
 # "privatekey":"6e2b96d6204a4212ae57ab84260e747f",
-# 
 # "email":""
-# 
 # }
-# 
 # 
 class BankKeys(IKeys):
 	def get_publickey(self):
@@ -29,22 +21,20 @@ class BankKeys(IKeys):
 
 	privatekey = property(fget=get_privatekey, fset=set_privatekey)
 
-	def get_email(self):
+	def get_account(self):
 
-	def set_email(self, value):
+	def set_account(self, value):
 
-	email = property(fget=get_email, fset=set_email)
+	account = property(fget=get_account, fset=set_account)
 
 	#Fields
 	#Constructors
-	def __init__(self, publickey=0, privatekey=0, email=0):
+	def __init__(self, publickey, privatekey, account): #end of constructor
 		self.publickey = publickey
 		self.privatekey = privatekey
-		self.email = email
-    
-  #end of constructor
+		self.account = account
 
-	def __init__(self, publickey, privatekey, email):
+	def __init__(self, publickey, privatekey, account):
 		self.publickey = publickey
 		self.privatekey = privatekey
-		self.email = email
+		self.account = account
