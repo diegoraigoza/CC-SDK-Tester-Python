@@ -49,16 +49,20 @@ class BankTotal(IBankResponse):
 
 	time = property(fget=get_time, fset=set_time)
 
+	def get_account(self):
+
+	def set_account(self, value):
+
+	account = property(fget=get_account, fset=set_account)
+
 	#Fields
 	#Constructors
-	def __init__(self, ones=0, fives=0, twentyfives=0, hundreds=0, twohundredfifties=0):
+	def __init__(self, ones, fives, twentyfives, hundreds, twohundredfifties): #end of constructor
 		self.ones = ones
 		self.fives = fives
 		self.twentyfives = twentyfives
 		self.hundreds = hundreds
 		self.twohundredfifties = twohundredfifties
-
-  #end of constructor
 
 	def __init__(self, ones, fives, twentyfives, hundreds, twohundredfifties):
 		self.ones = ones
