@@ -31,5 +31,11 @@ class DepositResponse(IBankResponse):
 
 	receipt = property(fget=get_receipt, fset=set_receipt)
 
+	def get_account(self):
+
+	def set_account(self, value):
+
+	account = property(fget=get_account, fset=set_account)
+
 	def __init__(self):
 		pass
