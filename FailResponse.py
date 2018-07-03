@@ -25,5 +25,17 @@ class FailResponse(IBankResponse):
 
 	message = property(fget=get_message, fset=set_message)
 
+	def get_account(self):
+
+	def set_account(self, value):
+
+	account = property(fget=get_account, fset=set_account)
+
+	def get_receipt(self):
+
+	def set_receipt(self, value):
+
+	receipt = property(fget=get_receipt, fset=set_receipt)
+
 	def __init__(self):
 		pass
