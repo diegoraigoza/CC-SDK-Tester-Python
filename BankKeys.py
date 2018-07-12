@@ -29,7 +29,7 @@ class BankKeys(IKeys):
 
 	#Fields
 	#Constructors
-	def __init__(self, publickey, privatekey, account): #end of constructor
+	def __init__(self, publickey=0, privatekey=0, account=0): #end of empty constructor
 		self.publickey = publickey
 		self.privatekey = privatekey
 		self.account = account
