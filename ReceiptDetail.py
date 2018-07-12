@@ -33,7 +33,7 @@ class ReceiptDetail(object):
 
 	#Fields
 	#Constructors
-	def __init__(self, nn, sn, status, pown, note): #end of constructor
+	def __init__(self, nn=0, sn=0, status=0, pown=0, note=0): #end of constructor
 		self.nn = nn
 		self.sn = sn
 		self.status = status
