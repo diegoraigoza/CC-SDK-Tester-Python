@@ -57,7 +57,7 @@ class BankTotal(IBankResponse):
 
 	#Fields
 	#Constructors
-	def __init__(self, ones, fives, twentyfives, hundreds, twohundredfifties): #end of constructor
+	def __init__(self, ones=0, fives=0, twentyfives=0, hundreds=0, twohundredfifties=0): #end of empty constructor
 		self.ones = ones
 		self.fives = fives
 		self.twentyfives = twentyfives
