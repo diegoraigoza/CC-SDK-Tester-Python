@@ -53,21 +53,21 @@ class Program(object):
 			if commandRecieved == 1:
 				Program.loadKeys()
 			elif commandRecieved == 2:
-				
+				Program.showCoins()
 			elif commandRecieved == 3:
-				self._receiptHolder = 
+				self._receiptHolder = Program.depositAsync()
 			elif commandRecieved == 4:
-				
+				Program.withdraw()
 			elif commandRecieved == 5:
-				
+				Program.receipt2()
 			elif commandRecieved == 6:
-				
+				Program.writeCheck()
 			elif commandRecieved == 7:
-				
+				Program.GetCheck()
 			elif commandRecieved == 8:
-				
+				self._tts.Connect()
 			elif commandRecieved == 9:
-				
+				Program.SendCoinsTT()
 			elif commandRecieved == 10:
 				Console.Out.WriteLine("Goodbye!")
 				Environment.Exit(0)
@@ -104,7 +104,7 @@ class Program(object):
 	# These totals are public properties that can be accessed
 	def showCoins():
 		cbu = CloudBankUtils(self._myKeys)
-		
+		cbu.showCoins()
 		Console.Out.WriteLine("Ones in our bank:" + cbu.onesInBank)
 		Console.Out.WriteLine("Five in our bank:" + cbu.fivesInBank)
 		Console.Out.WriteLine("Twenty Fives in our bank:" + cbu.twentyFivesInBank)
@@ -122,8 +122,8 @@ class Program(object):
 		path += self._reader.readString()
 		Console.Out.WriteLine("Loading " + path)
 		sender.loadStackFromFile(path)
-		
-		
+		sender.sendStackToCloudBank(self._publicKey)
+		sender.getReceipt(self._publicKey)
 		return sender
 
 	depositAsync = staticmethod(depositAsync)
@@ -135,7 +135,7 @@ class Program(object):
 			receiver = self._receiptHolder
 		Console.Out.WriteLine("How many CloudCoins are you withdrawing?")
 		amount = self._reader.readInt()
-		
+		receiver.getStackFromCloudBank(amount)
 		receiver.saveStackToFile(AppDomain.CurrentDomain.BaseDirectory)
 
 	withdraw = staticmethod(withdraw)
@@ -150,7 +150,7 @@ class Program(object):
  #end deposit
 	def receipt2():
 		x = CloudBankUtils(self._myKeys)
-		
+		x.getReceipt(self._myKeys.publickey)
 
 	receipt2 = staticmethod(receipt2)
 
@@ -161,8 +161,8 @@ class Program(object):
 		payto = self._reader.readString()
 		Console.Out.WriteLine("Who is being Emailed?")
 		emailto = self._reader.readString()
-		request = 
-		response = 
+		request = self._cli.GetAsync("https://" + self._publicKey + "/write_check.aspx?pk=" + self._privateKey + "&action=email&amount=" + amount + "&emailto=" + emailto + "&payto=" + payto + "&from=" + self._email + "&signby=" + self._sign)
+		response = request.Content.ReadAsStringAsync()
 		Console.Out.WriteLine(response)
 
 	writeCheck = staticmethod(writeCheck)
@@ -170,8 +170,8 @@ class Program(object):
 	def GetCheck():
 		Console.Out.WriteLine("What is the Check's Id?")
 		id = self._reader.readString()
-		request = 
-		response = 
+		request = self._cli.GetAsync("https://" + self._publicKey + "/checks.aspx?id=" + id + "&receive=json")
+		response = request.Content.ReadAsStringAsync()
 		Console.Out.WriteLine(response)
 
 	GetCheck = staticmethod(GetCheck)
@@ -185,7 +185,7 @@ class Program(object):
 		path += self._reader.readString()
 		Console.Out.WriteLine("Loading " + path)
 		stack = File.ReadAllText(path)
-		
+		self._tts.SendCoins(word, stack)
 
 	SendCoinsTT = staticmethod(SendCoinsTT)
 
